@@ -62,7 +62,6 @@ function Header() {
                     width="40"
                     height="40"
                     layout="fixed" 
-                    onClick={msg}
                 />
 
                 {/* profile name */}
