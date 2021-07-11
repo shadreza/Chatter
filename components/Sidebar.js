@@ -21,6 +21,7 @@ function Sidebar() {
     return (
         <div className="p-2 mt-5 max-w-[600px] xl:min-w-[300px]">
 
+            <SidebarRow src = {session.user.image} Title = {session.user.name} />
             <SidebarRow Icon = {UserIcon} Title = "Friends" />
             <SidebarRow Icon = {UserGroupIcon} Title = "Groups" />
 
@@ -34,12 +35,14 @@ function Sidebar() {
 
             {
                 showMoreOrLess === false && 
-                    <div onClick={toggleShowMoreOrLess}>
+                    <>
                         <SidebarRow Icon = {DesktopComputerIcon} Title = "Watch" />
                         <SidebarRow Icon = {CalendarIcon} Title = "Events" />
-                        <SidebarRow Icon = {ClockIcon} Title = "Memories" />  
-                        <SidebarRow Icon = {ArrowUpIcon} Title = "See Less" />  
-                    </div>
+                        <SidebarRow Icon = {ClockIcon} Title = "Memories" /> 
+                        <div onClick={toggleShowMoreOrLess}>
+                            <SidebarRow Icon = {ArrowUpIcon} Title = "See Less" />  
+                        </div> 
+                    </>
             }
 
         </div>

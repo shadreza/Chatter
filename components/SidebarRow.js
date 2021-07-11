@@ -1,23 +1,30 @@
 import Image from "next/image";
-function SidebarRow({Icon, Title}) {
+function SidebarRow({Icon, Title, src}) {
     return (
-        <div className="flex p-3 rounded-full hover:bg-gray-200 hover:cursor-pointer">
-            {/* {
+        <div className="flex items-center space-x-2 p-4 rounded-xl hover:bg-gray-200 cursor-pointer">
+            
+            {
                 src && (
                     <Image 
                         src={src} 
                         width={30}
                         height={30}
                         layout="fixed"
+                        className="rounded-full"
                     />
                 )
-            } */}
+            }
             {
                 Icon && (
                     <Icon className="h-6 w-6 text-green-500" />
                 )
             }
-            <p className="hidden sm:inline-flex font-medium ml-4"> {Title} </p>
+            {
+                Title && (
+                    <p className="hidden sm:inline-flex font-medium ml-4"> {Title} </p>
+                )
+            }
+
         </div>
     )
 }
