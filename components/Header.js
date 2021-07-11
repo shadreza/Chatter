@@ -6,6 +6,7 @@ import {
     BellIcon,
     HomeIcon,
     UserGroupIcon,
+    LogoutIcon,
     ViewGridIcon,
     SearchCircleIcon
     } from '@heroicons/react/solid';
@@ -17,9 +18,13 @@ import {
     } from '@heroicons/react/outline';
 import HeaderIcon from "./HeaderIcon";
 import React from "react";
-import { session, signOut } from "next-auth/client";
+import { session, signOut, useSession } from "next-auth/client";
 
 function Header() {
+    const [session] = useSession();
+    const msg = () => {
+        console.log(session)
+    }
     return (
         <div className=" sticky top-0 z-50 bg-white flex items-center p-2 lg:px-5 shadow-md">
 
@@ -53,20 +58,20 @@ function Header() {
                 {/* profile pic */}
                 <Image 
                     className="rounded-full"
-                    // trouble in bringing the session 
                     src={session.user.image}
                     width="40"
                     height="40"
                     layout="fixed" 
-                    onClick={signOut}
+                    onClick={msg}
                 />
 
                 {/* profile name */}
-                <p className='whitespace-nowrap font-semibold pr-3'>Shad Reza</p>
-                <ViewGridIcon className="icon" />
-                <ChatIcon className="icon" />
+                <p className='whitespace-nowrap font-semibold pr-3'>{session.user.name}</p>
+                {/* <ViewGridIcon className="icon" /> */}
+                {/* <ChatIcon className="icon" /> */}
                 <BellIcon className="icon" />
                 <ChevronDownIcon className="icon" />
+                <LogoutIcon onClick={signOut} className="icon" />
             </div>
 
         </div>
