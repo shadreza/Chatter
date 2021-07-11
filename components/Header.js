@@ -17,6 +17,7 @@ import {
     } from '@heroicons/react/outline';
 import HeaderIcon from "./HeaderIcon";
 import React from "react";
+import { session, signOut } from "next-auth/client";
 
 function Header() {
     return (
@@ -50,6 +51,15 @@ function Header() {
             {/* header right */}
             <div className="header-right flex items-center sm:space-x-2 justify-end">
                 {/* profile pic */}
+                <Image 
+                    className="rounded-full"
+                    // trouble in bringing the session 
+                    src={session.user.image}
+                    width="40"
+                    height="40"
+                    layout="fixed" 
+                    onClick={signOut}
+                />
 
                 {/* profile name */}
                 <p className='whitespace-nowrap font-semibold pr-3'>Shad Reza</p>
