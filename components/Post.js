@@ -4,13 +4,27 @@ import {
     VideoCameraIcon,
     CameraIcon
     } from '@heroicons/react/solid';
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { db } from "../firebase";
 import firebase from "firebase";
 
 function Post() {
     const [session] = useSession();
-    const msgText = useRef(null);
+    const msgText = useRef(null); 
+    const filePickerRef = useRef(null);
+    const [imageToPost, setImageToPost] = useState(null);
+    const addImageToPost = (e) => {
+        const reader = new FileReader();
+        if(e.target.files[0]) {
+            reader.readAsDataURL(e.target.files[0])
+        }
+        reader.onload = (readerEvent) => {
+            setImageToPost(readerEvent.target.result)
+        }
+    }
+    const removeImageFromPost = () => {
+        setImageToPost(null)
+    }
     const submitPost = (e) => {
         e.preventDefault();
         if(!msgText.current.value) return;
@@ -42,6 +56,14 @@ function Post() {
                         placeholder={`What's on your mind, ${session.user.name}`}
                         ref = {msgText}
                     />
+                    {
+                        imageToPost && (
+                            <div className="flex flex-col ml-3 filter hover:brightness-110 transition duration-150 transform hover:scale-105 cursor-pointer" onClick={removeImageFromPost}>
+                                <img className="h-10 object-contain rounded-xl" src={imageToPost} alt="" />
+                                <p className="text-xs text-red-500 text-center">Remove</p>
+                            </div>
+                        )
+                    }
                     <button type="submit" className='ml-3 bg-blue-400 pl-2 pr-2 rounded-2xl text-white' onClick={submitPost}>Submit</button>
                 </form>
             </div>
@@ -50,9 +72,10 @@ function Post() {
                     <VideoCameraIcon className="h-7 text-red-500" />
                     <p className="text-xs sm:text-sm xl:text-base">Live Video</p>
                 </div>
-                <div className="inputIcons ">
+                <div className="inputIcons " onClick={() => filePickerRef.current.click()}>
                     <CameraIcon className="h-7 text-blue-500" />
                     <p className="text-xs sm:text-sm xl:text-base">Add Photos / Videos</p>
+                    <input type="file" ref={filePickerRef} hidden onChange={addImageToPost}/>
                 </div>
             </div>
         </div>
