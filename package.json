@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^1.0.2",
+    "firebase": "^8.7.1",
     "mkcert": "^1.4.0",
     "next": "11.0.1",
     "next-auth": "^3.27.3",
