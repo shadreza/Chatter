@@ -16,7 +16,13 @@ function SidebarRow({Icon, Title, src}) {
             }
             {
                 Icon && (
-                    <Icon className="h-6 w-6 text-green-500" />
+                    Title === 'See More' ?
+                        <Icon className="h-6 w-6 text-green-500 animate-bounce" />
+                        :
+                        Title === 'See Less' ?
+                            <Icon className="h-6 w-6 text-green-500 animate-bounce" />
+                            :
+                            <Icon className="h-6 w-6 text-green-500" />
                 )
             }
             {
