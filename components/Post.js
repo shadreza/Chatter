@@ -5,7 +5,7 @@ import {
     CameraIcon
     } from '@heroicons/react/solid';
 import { useRef, useState } from "react";
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
 import firebase from "firebase";
 
 function Post() {
@@ -34,9 +34,38 @@ function Post() {
             email  : session.user.email,
             photo  : session.user.image,
             timestamp : firebase.firestore.FieldValue.serverTimestamp()
+        }).then(doc => {
+            if (imageToPost) {
+                const uploadTask = storage
+                .ref(`posts/${doc.id}`)
+                .putString(imageToPost, "data_url");
+
+                removeImageFromPost();
+
+                uploadTask.on(
+                    "state_change",
+                    null,
+                    (error) => console.error(error),
+                    () => {
+                        storage
+                            .ref('posts')
+                            .child(doc.id)
+                            .getDownloadURL()
+                            .then(url => {
+                                db.collection('posts').doc(doc.id).set(
+                                    {
+                                        postImage: url,
+                                    },
+                                    {merge: true}
+                                );
+                            })
+                    }
+                );
+            }
         })
         alert('Posted!')
-        document.getElementById('input-form').value = '';
+        filePickerRef.current.value =''
+        // document.getElementById('input-form').value = '';
     }
     return (
         <div className="bg-white p-2 rounded-2xl shadow-md text-gray-500 font-medium mt-6">
